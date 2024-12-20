@@ -32,6 +32,7 @@
           class="form-control"
           bind:value={inputValue}
           aria-describedby="inputHelp"
+          autofocus
         />
       </div>
       <div aria-live="assertive" role="alert" class="visually-hidden">
