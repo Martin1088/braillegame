@@ -1,11 +1,11 @@
 <script lang="ts">
-  export let navItems = [];
-  export let menu;
+  export let navItems;
+  export let menu: number;
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">My App</a>
+    <a class="navbar-brand" href="/">My App</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -19,14 +19,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        {#each navItems as item, i}
+        {#each navItems as item}
           <li class="nav-item">
             <a
-              class="nav-link {menu === i + 1 ? 'active' : ''}"
-              href="#"
-              on:click={() => (menu = i + 1)}
+              class="nav-link {menu === item.id ? 'active' : ''}"
+              href="/"
+              on:click={() => (menu = item.id)}
             >
-              {item}
+              {item.label}
             </a>
           </li>
         {/each}

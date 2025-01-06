@@ -3,11 +3,13 @@
   import { invoke } from "@tauri-apps/api/core";
   import LetterCasing from "./LetterCasing.svelte";
   import Navbar from "../components/Navbar.svelte";
-
-  let config: number | null = null;
+  import { modus, set_menu_easy } from "../ts/store";
+  import { setModus } from "../ts/menu";
+  import Home from "./Home.svelte";
+  let menu: number = 1;
 </script>
 
-{#if config === null}
+{#if $modus === null}
   <div
     class="modal show d-block"
     tabindex="-1"
@@ -19,14 +21,17 @@
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
-          <button>easy</button>
-          <button>medium</button>
-          <button>advanced</button>
+          <button on:click={() => setModus(1)}>easy</button>
+          <button on:click={() => setModus(2)}>medium</button>
+          <button on:click={() => setModus(3)}>advanced</button>
           <p class="mt-3">Choose your expercence starting...</p>
         </div>
       </div>
     </div>
   </div>
-{:else}
-  <Navbar />
+{:else if $modus === 1}
+  <Navbar navItems={set_menu_easy} bind:menu />
+  {#if menu === 1}
+    <Home />
+  {/if}
 {/if}
