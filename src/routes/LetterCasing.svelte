@@ -1,21 +1,14 @@
 <script lang="ts">
-  import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
+  import { randomLetter } from "../ts/store";
+  import { checkLetter, updateContent } from "../ts/easy";
 
   let inputValue: string;
-  let message: string;
-  async function updateContent() {
-    try {
-      // Call the Tauri command to get a random character
-      message = await invoke<string>("dynamic");
-    } catch (error) {
-      console.error("Error updating content:", error);
-    }
-  }
-
+  let counterInstance: number = 10;
+  let interval: number;
   // Set up the interval to update content every 10 seconds
   onMount(() => {
-    const interval = setInterval(updateContent, 10000);
+    interval = setInterval(updateContent, 1000);
     return () => clearInterval(interval); // Cleanup interval on component unmount
   });
 </script>
@@ -31,13 +24,14 @@
           type="text"
           class="form-control"
           bind:value={inputValue}
+          on:input={(event) => checkLetter(event, counterInstance, interval)}
           aria-describedby="inputHelp"
           autofocus
         />
       </div>
       <div aria-live="assertive" role="alert" class="visually-hidden">
         <p>Your random letter is ready:</p>
-        <pre>{message}</pre>
+        <pre>${randomLetter}</pre>
       </div>
     </div>
   </div>

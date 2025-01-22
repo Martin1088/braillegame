@@ -1,9 +1,8 @@
 <script lang="ts">
   import "bootstrap/dist/css/bootstrap.min.css";
-  import { invoke } from "@tauri-apps/api/core";
   import LetterCasing from "./LetterCasing.svelte";
   import Navbar from "../components/Navbar.svelte";
-  import { modus, set_menu_easy } from "../ts/store";
+  import { Modus, modus, set_menu_easy } from "../ts/store";
   import { setModus } from "../ts/menu";
   import Home from "./Home.svelte";
   let menu: number = 1;
@@ -21,16 +20,29 @@
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
-          <button on:click={() => setModus(1)}>easy</button>
-          <button on:click={() => setModus(2)}>medium</button>
-          <button on:click={() => setModus(3)}>advanced</button>
+          <br />
+          <button on:click={() => setModus(Modus.Easy)}>easy</button>
+          <button on:click={() => setModus(Modus.Medium)}>medium</button>
+          <button on:click={() => setModus(Modus.Advanced)}>advanced</button>
           <p class="mt-3">Choose your expercence starting...</p>
         </div>
       </div>
     </div>
   </div>
-{:else if $modus === 1}
-  <Navbar navItems={set_menu_easy} bind:menu />
+{:else if $modus === Modus.Easy}
+  <Navbar navItems={set_menu_easy()} bind:menu />
+  {#if menu === 1}
+    <Home />
+  {:else if menu === 3}
+    <LetterCasing />
+  {/if}
+{:else if $modus === Modus.Medium}
+  <Navbar navItems={set_menu_easy()} bind:menu />
+  {#if menu === 1}
+    <Home />
+  {/if}
+{:else if $modus === Modus.Advanced}
+  <Navbar navItems={set_menu_easy()} bind:menu />
   {#if menu === 1}
     <Home />
   {/if}

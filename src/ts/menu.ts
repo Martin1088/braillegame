@@ -1,5 +1,5 @@
-import { modus } from "./store";
+import { Modus, modus } from "./store";
 
-export function setModus(level: number) {
+export function setModus(level: Modus) {
   modus.set(level);
 }
